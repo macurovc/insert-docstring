@@ -39,16 +39,18 @@ The text gets automatically *indented* and *split* on multiple lines.
 
 ### Manually
 
-Place [insert-docstring.el](insert-docstring.el) in your Emacs `load-path`.
+Place [insert-docstring.el](insert-docstring.el) in your Emacs `load-path`. E.g.:
+
+```elisp
+(add-to-list 'load-path (expand-file-name "~/{path/to}/insert-docstring"))
+(require 'insert-docstring)
+```
 
 ## Usage
 
 Set in the `~/.emacs` file a keybinding such as:
 
 ```elisp
-(add-to-list 'load-path (expand-file-name "~/{path/to}/insert-docstring"))
-(require 'insert-docstring)
-
 (defun set-python-keybindings ()
   (local-set-key (kbd "C-c i") 'python-insert-google-docstring-at-point)
   )
