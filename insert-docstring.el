@@ -23,28 +23,42 @@
 (require 'cl-macs)
 (require 'cl-seq)
 
-(setq insert-docstring--python-tab-width
-      (if (boundp 'python-tab-width) python-tab-width 4)
+(defgroup insert-docstring nil "Insert Docstring custom variables")
+
+(defcustom insert-docstring--python-tab-width
+  (if (boundp 'python-tab-width) python-tab-width 4)
+  "Tabulation width in Python files"
+  :group 'insert-docstring
   )
-(setq insert-docstring--default-python-indentation
-      (make-string insert-docstring--python-tab-width ? )
-      )
+(defcustom insert-docstring--default-python-indentation
+  (make-string insert-docstring--python-tab-width ? )
+  "Python indentation string"
+  :group 'insert-docstring
+  )
 
-(setq insert-docstring--python-function-indentation-regex
-      (rx line-start (group (* blank)) "def" (or blank "\n"))
-      )
-(setq insert-docstring--python-function-name-regex
-      (rx "def" (+ (or blank "\n"))
-          (group (+ (not whitespace)))
-          (* (or blank "\n")) "(")
-      )
+(defcustom insert-docstring--python-function-indentation-regex
+  (rx line-start (group (* blank)) "def" (or blank "\n"))
+  "Regex to find the indentation of a function"
+  :group 'insert-docstring
+  )
+(defcustom insert-docstring--python-function-name-regex
+  (rx "def" (+ (or blank "\n"))
+      (group (+ (not whitespace)))
+      (* (or blank "\n")) "(")
+  "Regex to find the name of a function"
+  :group 'insert-docstring
+  )
 
-(setq insert-docstring--python-function-arguments-regex
-      (rx "(" (group (* (not (any "(" ")")))) ")")
-      )
-(setq insert-docstring--python-function-end-regex
-      (rx ")" (* (not (any ":"))) ":")
-      )
+(defcustom insert-docstring--python-function-arguments-regex
+  (rx "(" (group (* (not (any "(" ")")))) ")")
+  "Regex to find the string of arguments of a function"
+  :group 'insert-docstring
+  )
+(defcustom insert-docstring--python-function-end-regex
+  (rx ")" (* (not (any ":"))) ":")
+  "Regex to find the end of a function"
+  :group 'insert-docstring
+  )
 
 
 (cl-defstruct insert-docstring--argument-data
@@ -297,7 +311,7 @@ provided."
   "Return the fill column value."
   (if (boundp 'insert-docstring--fill-column) insert-docstring--fill-column
     (if (boundp 'python-fill-column) python-fill-column
-      fill-columnll-column)
+      fill-column)
     )
   )
 
