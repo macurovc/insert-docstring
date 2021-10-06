@@ -119,6 +119,10 @@
                    '("first" "second" "third")))
     (should (equal (insert-docstring--get-python-arguments-names-from-string
                     "  first: Type\n,\n  second:\n Map[some, other]") '("first" "second")))
+    (should (equal (insert-docstring--get-python-arguments-names-from-string
+                    "  first: Type = 1,\n  second: Map[some, other] = 2") '("first" "second")))
+    (should (equal (insert-docstring--get-python-arguments-names-from-string
+                    "  first = 1,\n  second = 2") '("first" "second")))
     )
   )
 

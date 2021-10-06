@@ -30,6 +30,7 @@
   "Tabulation width in Python files"
   :group 'insert-docstring
   )
+
 (defcustom insert-docstring--default-python-indentation
   (make-string insert-docstring--python-tab-width ? )
   "Python indentation string"
@@ -41,6 +42,7 @@
   "Regex to find the indentation of a function"
   :group 'insert-docstring
   )
+
 (defcustom insert-docstring--python-function-name-regex
   (rx "def" (+ (or blank "\n"))
       (group (+ (not whitespace)))
@@ -54,9 +56,16 @@
   "Regex to find the string of arguments of a function"
   :group 'insert-docstring
   )
+
 (defcustom insert-docstring--python-function-end-regex
   (rx ")" (* (not (any ":"))) ":")
   "Regex to find the end of a function"
+  :group 'insert-docstring
+  )
+
+(defcustom insert-docstring--blank-or-newline-regex
+  (rx (+ (or blank "\n")))
+  "Regex to find blanks and newlines (used for trimming)"
   :group 'insert-docstring
   )
 
@@ -116,16 +125,23 @@
   "Parse the argument names contained in ARGUMENTS-STRING and
 return them in a list."
   (if (string-equal "" arguments-string) nil
-    (cl-remove-if
+    (mapcar
      (lambda (string)
-       (string-match-p (rx (or "[" "]")) string)
+       "Remove default value if any and trim"
+       (car (split-string string "=" t insert-docstring--blank-or-newline-regex))
        )
-     (mapcar (lambda (single-argument-string)
-               (car (split-string single-argument-string ":" t
-                                  (rx (+ (or blank "\n")))))
-               )
-             (split-string arguments-string ",")
-             )
+     (cl-remove-if
+      (lambda (string)
+        "Match type data leftovers"
+        (string-match-p (rx (or "[" "]")) string)
+        )
+      (mapcar (lambda (single-argument-string)
+                "Drop type data"
+                (car (split-string single-argument-string ":"))
+                )
+              (split-string arguments-string ",")
+              )
+      )
      )
     )
   )
