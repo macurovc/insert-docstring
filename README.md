@@ -25,15 +25,32 @@ def fetch_data(url: str, keys: List[int]) -> Mapping[int, str]:
 
 The text gets automatically *indented* and *split* on multiple lines.
 
-## Usage
+## Install
 
-Place [insert-docstring.el](insert-docstring.el) in your Emacs `load-path` and
-then set in the `~/.emacs` file a keybinding such as:
+### With [use-package](https://github.com/jwiegley/use-package) and [quelpa](https://github.com/quelpa/quelpa)
+
+```elisp
+(use-package insert-docstring
+  :ensure nil
+  :quelpa (insert-docstring
+           :fetcher github
+           :repo "macurovc/insert-docstring"))
+```
+
+### Manually
+
+Place [insert-docstring.el](insert-docstring.el) in your Emacs `load-path`. E.g.:
 
 ```elisp
 (add-to-list 'load-path (expand-file-name "~/{path/to}/insert-docstring"))
 (require 'insert-docstring)
+```
 
+## Usage
+
+Set in the `~/.emacs` file a keybinding such as:
+
+```elisp
 (defun set-python-keybindings ()
   (local-set-key (kbd "C-c i") 'python-insert-google-docstring-at-point)
   )
