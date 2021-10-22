@@ -37,19 +37,19 @@
 
 (defcustom insert-docstring--python-tab-width
   (if (boundp 'python-tab-width) python-tab-width 4)
-  "Tabulation width in Python files"
+  "Tabulation width in Python files."
   :group 'insert-docstring
   :type 'integer)
 
 (defcustom insert-docstring--default-python-indentation
   (make-string insert-docstring--python-tab-width ? )
-  "Python indentation string"
+  "Python indentation string."
   :group 'insert-docstring
   :type 'string)
 
 (defcustom insert-docstring--python-function-indentation-regex
   (rx line-start (group (* blank)) "def" (or blank "\n"))
-  "Regex to find the indentation of a function"
+  "Regex to find the indentation of a function."
   :group 'insert-docstring
   :type 'string)
 
@@ -57,25 +57,25 @@
   (rx "def" (+ (or blank "\n"))
       (group (+ (not whitespace)))
       (* (or blank "\n")) "(")
-  "Regex to find the name of a function"
+  "Regex to find the name of a function."
   :group 'insert-docstring
   :type 'string)
 
 (defcustom insert-docstring--python-function-arguments-regex
   (rx "(" (group (* (not (any "(" ")")))) ")")
-  "Regex to find the string of arguments of a function"
+  "Regex to find the string of arguments of a function."
   :group 'insert-docstring
   :type 'string)
 
 (defcustom insert-docstring--python-function-end-regex
   (rx ")" (* (not (any ":"))) ":")
-  "Regex to find the end of a function"
+  "Regex to find the end of a function."
   :group 'insert-docstring
   :type 'string)
 
 (defcustom insert-docstring--blank-or-newline-regex
   (rx (+ (or blank "\n")))
-  "Regex to find blanks and newlines (used for trimming)"
+  "Regex to find blanks and newlines (used for trimming)."
   :group 'insert-docstring
   :type 'string)
 
@@ -98,8 +98,7 @@
 
 
 (defun insert-docstring--function-data-at-point ()
-  "Return a function-data struct with the data of the function at
-  point."
+  "Return a function-data struct with the data of the function at point."
   (let ((indentation-string (insert-docstring--match-string-for-python-function-at-point
                              insert-docstring--python-function-indentation-regex))
         (function-name (insert-docstring--match-string-for-python-function-at-point
@@ -121,8 +120,7 @@
 
 
 (defun insert-docstring--get-python-arguments-names-from-string (arguments-string)
-  "Parse the argument names contained in ARGUMENTS-STRING and
-return them in a list."
+  "Parse the argument names contained in ARGUMENTS-STRING and return them in a list."
   (if (string-equal "" arguments-string) nil
     (mapcar
      (lambda (string)
@@ -139,9 +137,10 @@ return them in a list."
 
 
 (defun insert-docstring--make-function-data (indentation-string function-name argument-names)
-  "Create a function-data struct for a function with indentation
-  INDENTATION-STRING, with name FUNCTION-NAME and arguments
-  ARGUMENT-NAMES."
+  "Create a function-data struct.
+Argument INDENTATION-STRING indentation of the function.
+Argument FUNCTION-NAME name of the function.
+Argument ARGUMENT-NAMES names of the function arguments."
   (make-insert-docstring--function-data
    :indentation-string indentation-string
    :short-description (insert-docstring--get-short-description-from-user function-name)
@@ -151,8 +150,8 @@ return them in a list."
 
 
 (defun insert-docstring--make-arguments-data (argument-names)
-  "Ask the user for the description of each argument in the
-ARGUMENT-NAMES list and return them as arguments-data."
+  "Generate an arguments-data struct for each argument in ARGUMENT-NAMES.
+The user is asked for the description of each argument."
   (when argument-names
     (let ((name (car argument-names)))
       (cons
@@ -163,14 +162,12 @@ ARGUMENT-NAMES list and return them as arguments-data."
 
 
 (defun insert-docstring--get-short-description-from-user (function-name)
-  "Ask the user for the short description of the function with name
-FUNCTION_NAME."
+  "Ask the user for the short description of the function with name FUNCTION-NAME."
   (read-string (format "Enter the short description for the function '%s': " function-name)))
 
 
 (defun insert-docstring--get-long-description-from-user (function-name)
-  "Ask the user for the long description of the function with name
-FUNCTION_NAME."
+  "Ask the user for the long description of the function with name FUNCTION-NAME."
   (let ((description
          (read-string
           (format
@@ -186,9 +183,8 @@ FUNCTION_NAME."
 
 
 (defun insert-docstring--prefix-lines (lines prefix)
-  "Prepend each string in the LINES list with the PREFIX string
-and return them in a list.
-
+  "Prepend each string in the LINES list with the PREFIX string.
+The result is a list of strings.
 If a string is empty, PREFIX doesn't get prepended."
   (mapcar (lambda (line)
             (if (string-equal "" line) line (concat prefix line)))
@@ -221,8 +217,7 @@ If a string is empty, PREFIX doesn't get prepended."
 
 
 (defun insert-docstring--python-google-docstring-long-description (long-description docstring-indentation)
-  "Return the docstring lines about the ARGUMENTS with the given
-DOCSTRING-INDENTATION."
+  "Return the LONG-DESCRIPTION with the given DOCSTRING-INDENTATION."
   (if long-description
       (append
        (list "")
@@ -230,8 +225,7 @@ DOCSTRING-INDENTATION."
 
 
 (defun insert-docstring--python-google-docstring-arguments (arguments docstring-indentation)
-  "Return the docstring lines about the ARGUMENTS with the given
-DOCSTRING-INDENTATION."
+  "Return the docstring lines about the ARGUMENTS with the given DOCSTRING-INDENTATION."
   (append
    (if arguments (append (list "")
                          (insert-docstring--prefix-lines '("Args:") docstring-indentation)))
@@ -241,8 +235,7 @@ DOCSTRING-INDENTATION."
 
 
 (defun insert-docstring--python-google-docstring-arguments-list (arguments arguments-docstring-indentation)
-  "Return the docstring lines about the ARGUMENTS list with the
-given DOCSTRING-INDENTATION."
+  "Return the docstring lines about the ARGUMENTS list with the given ARGUMENTS-DOCSTRING-INDENTATION."
   (when arguments
     (let* ((argument (car arguments))
            (name (insert-docstring--argument-data-name argument))
@@ -256,9 +249,7 @@ given DOCSTRING-INDENTATION."
 
 
 (defun insert-docstring--python-google-docstring-returns (return-description docstring-indentation)
-  "Return the docstring lines about the returned data using the
-RETURN-DESCRIPTION string with the DOCSTRING-INDENTATION
-provided."
+  "Return the RETURN-DESCRIPTION with the given DOCSTRING-INDENTATION."
   (if return-description
       (append (list "")
               (insert-docstring--prefix-lines '("Returns:") docstring-indentation)
@@ -268,8 +259,10 @@ provided."
 
 
 (defun insert-docstring--line-to-indented-paragraph (line indentation &optional new-line-prefix column-width)
-  "Split a line multiple ones with the given indentation and
-  global line width."
+  "Split a LINE into multiple ones to form a paragraph column.
+Argument INDENTATION indentation prefixed to each paragraph row.
+Optional argument NEW-LINE-PREFIX prefix string for new lines.
+Optional argument COLUMN-WIDTH maximum lenght of a line."
   (let ((max-length
          (- (or column-width (insert-docstring--get-fill-column))
             (insert-docstring--indentation-length indentation))))
@@ -286,9 +279,9 @@ provided."
 
 
 (defun insert-docstring--indentation-length (indentation-string &optional num-tab-chars)
-  "Compute the number of character in INDENTATION-STRING if tabs
-were converted to spaces. NUM-TAB-CHARS corresponds to the spaces
-in a tab (default: tab-width)."
+  "Compute the number of character in INDENTATION-STRING.
+Tabs count according to their width.
+Optional argument NUM-TAB-CHARS number of spaces in a tabulation (default: `tab-width')."
   (cl-reduce
    '+
    (mapcar
@@ -299,8 +292,8 @@ in a tab (default: tab-width)."
 
 
 (defun insert-docstring--append-words-to-paragraph (lines max-line-width words &optional new-line-prefix)
-  "Append the WORDS to the strings in LINES. A new line is
-appended whenever MAX-LINE-WIDTH is reached. New lines can be
+  "Append the WORDS to the strings in LINES.
+A new line is appended whenever MAX-LINE-WIDTH is reached. New lines can be
 optionally prefixed with NEW-LINE-PREFIX."
   (if words
       (insert-docstring--append-words-to-paragraph

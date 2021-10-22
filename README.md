@@ -71,5 +71,7 @@ can be run with the following command:
 emacs -batch -l insert-docstring.el -l insert-docstring-tests.el -f ert-run-tests-batch-and-exit
 ```
 
-Moreover, the validation of
-[package-lint](https://github.com/purcell/package-lint) must pass.
+Each contribution must respect the following requirements:
+* pass the validation of [package-lint](https://github.com/purcell/package-lint)
+* byte-compilation without errors
+* no errors with `M-x checkdoc`
