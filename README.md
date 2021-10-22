@@ -52,7 +52,7 @@ Set in the `~/.emacs` file a keybinding such as:
 
 ```elisp
 (defun set-python-keybindings ()
-  (local-set-key (kbd "C-c i") 'python-insert-google-docstring-at-point)
+  (local-set-key (kbd "C-c i") 'insert-docstring--insert-python-google-docstring-at-point)
   )
 (add-hook 'python-mode-hook 'set-python-keybindings)
 ```
@@ -70,3 +70,6 @@ can be run with the following command:
 ```bash
 emacs -batch -l insert-docstring.el -l insert-docstring-tests.el -f ert-run-tests-batch-and-exit
 ```
+
+Moreover, the validation of
+[package-lint](https://github.com/purcell/package-lint) must pass.
