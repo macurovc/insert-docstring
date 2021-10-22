@@ -38,39 +38,46 @@
 (defcustom insert-docstring--python-tab-width
   (if (boundp 'python-tab-width) python-tab-width 4)
   "Tabulation width in Python files"
-  :group 'insert-docstring)
+  :group 'insert-docstring
+  :type 'integer)
 
 (defcustom insert-docstring--default-python-indentation
   (make-string insert-docstring--python-tab-width ? )
   "Python indentation string"
-  :group 'insert-docstring)
+  :group 'insert-docstring
+  :type 'string)
 
 (defcustom insert-docstring--python-function-indentation-regex
   (rx line-start (group (* blank)) "def" (or blank "\n"))
   "Regex to find the indentation of a function"
-  :group 'insert-docstring)
+  :group 'insert-docstring
+  :type 'string)
 
 (defcustom insert-docstring--python-function-name-regex
   (rx "def" (+ (or blank "\n"))
       (group (+ (not whitespace)))
       (* (or blank "\n")) "(")
   "Regex to find the name of a function"
-  :group 'insert-docstring)
+  :group 'insert-docstring
+  :type 'string)
 
 (defcustom insert-docstring--python-function-arguments-regex
   (rx "(" (group (* (not (any "(" ")")))) ")")
   "Regex to find the string of arguments of a function"
-  :group 'insert-docstring)
+  :group 'insert-docstring
+  :type 'string)
 
 (defcustom insert-docstring--python-function-end-regex
   (rx ")" (* (not (any ":"))) ":")
   "Regex to find the end of a function"
-  :group 'insert-docstring)
+  :group 'insert-docstring
+  :type 'string)
 
 (defcustom insert-docstring--blank-or-newline-regex
   (rx (+ (or blank "\n")))
   "Regex to find blanks and newlines (used for trimming)"
-  :group 'insert-docstring)
+  :group 'insert-docstring
+  :type 'string)
 
 
 (cl-defstruct insert-docstring--argument-data

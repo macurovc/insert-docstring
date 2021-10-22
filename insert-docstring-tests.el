@@ -29,7 +29,7 @@
 ;;
 ;;; Code:
 
-(setq insert-docstring--fill-column 79)
+(defconst insert-docstring--fill-column 79)
 
 (ert-deftest python-python-function-name-test ()
   "Match the name of a simple function."
