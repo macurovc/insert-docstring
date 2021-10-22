@@ -52,7 +52,7 @@ Set in the `~/.emacs` file a keybinding such as:
 
 ```elisp
 (defun set-python-keybindings ()
-  (local-set-key (kbd "C-c i") 'insert-docstring--insert-python-google-docstring-at-point)
+  (local-set-key (kbd "C-c i") 'insert-docstring-at-point-with-google-style)
   )
 (add-hook 'python-mode-hook 'set-python-keybindings)
 ```

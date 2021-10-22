@@ -1,33 +1,44 @@
-;;; insert-docstring.el --- Python Docstring Inserter -*- lexical-binding: t; -*-
-;;
+;;; insert-docstring.el --- Python Google docstring inserter -*- lexical-binding: t; -*-
+
 ;; Copyright (c) 2021 Marco Vocialta
-;;
+
 ;; Author: Marco Vocialta <macurovc@tutanota.com>
 ;; Package-Requires: ((emacs "25.1"))
 ;; URL: https://github.com/macurovc/insert-docstring
 ;; Version: 1.1
-;;
+
 ;; This file is not part of GNU Emacs.
-;;
+
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
 ;; (at your option) any later version.
-;;
+
 ;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
-;;
+
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
-;;
+
 ;;; Commentary:
-;;
+
 ;; This package can automatic generate function docstrings in Python according
-;; to the Google style guide. The text gets automatically indented and split on
-;; multiple lines.
-;;
+;; to the Google style guide available at this URL:
+
+;; https://google.github.io/styleguide/pyguide.html#383-functions-and-methods
+
+;; The text gets automatically indented and split on multiple lines.
+
+;; In order to use this package, you can set a custom keybinding in your
+;; ~/.emacs file such as:
+
+;; (defun set-python-keybindings ()
+;;   (local-set-key (kbd "C-c i") 'insert-docstring-at-point-with-google-style)
+;;   )
+;; (add-hook 'python-mode-hook 'set-python-keybindings)
+
 ;;; Code:
 
 (require 'cl-lib)
@@ -89,7 +100,7 @@
   indentation-string short-description long-description arguments return)
 
 
-(defun insert-docstring--insert-python-google-docstring-at-point ()
+(defun insert-docstring-at-point-with-google-style ()
   "Insert a Google docstring for the Python function at point."
   (interactive)
   (let* ((function-data (insert-docstring--function-data-at-point))
@@ -283,7 +294,7 @@ Optional argument COLUMN-WIDTH maximum lenght of a line."
 Tabs count according to their width.
 Optional argument NUM-TAB-CHARS number of spaces in a tabulation (default: `tab-width')."
   (cl-reduce
-   '+
+   #'+
    (mapcar
     (lambda (char) (if (char-equal char ?\t)
                        (or num-tab-chars tab-width)
