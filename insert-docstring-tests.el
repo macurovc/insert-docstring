@@ -1,4 +1,4 @@
-;;; insert-docstring-tests.el --- Tests for the Python Docstring Inserter
+;;; insert-docstring-tests.el --- Tests for the Python Docstring Inserter -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (c) 2021 Marco Vocialta
 ;;

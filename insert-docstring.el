@@ -1,4 +1,4 @@
-;;; insert-docstring.el --- Python Docstring Inserter
+;;; insert-docstring.el --- Python Docstring Inserter -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (c) 2021 Marco Vocialta
 ;;
