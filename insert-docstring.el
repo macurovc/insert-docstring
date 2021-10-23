@@ -226,7 +226,7 @@ If a string is empty, PREFIX doesn't get prepended."
   (save-excursion
     (re-search-forward insert-docstring--python-function-end-regex)
     (insert "\n")
-    (insert (string-join docstring-lines "\n"))
+    (insert (mapconcat #'identity docstring-lines "\n"))
     (insert "\n")))
 
 
