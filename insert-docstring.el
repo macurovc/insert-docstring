@@ -109,6 +109,7 @@
   return)
 
 
+;;;###autoload
 (defun insert-docstring-at-point-with-google-style ()
   "Insert a Google docstring for the Python function at point."
   (interactive)
