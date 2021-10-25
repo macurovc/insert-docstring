@@ -230,8 +230,7 @@ If a string is empty, PREFIX doesn't get prepended."
     (re-search-backward insert-docstring--python-function-indentation-regex)
     (re-search-forward insert-docstring--python-function-end-regex)
     (insert "\n")
-    (insert (mapconcat #'identity docstring-lines "\n"))
-    (insert "\n")))
+    (insert (mapconcat #'identity docstring-lines "\n"))))
 
 
 (defun insert-docstring--python-google-docstring (function-data)
