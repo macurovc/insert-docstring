@@ -137,8 +137,9 @@
 (defun insert-docstring--match-string-for-python-function-at-point (regex)
   "Match REGEX for the python function at point and return its first group."
   (save-excursion
-    (re-search-forward insert-docstring--python-function-end-regex)
-    (re-search-backward regex)
+    (end-of-line)
+    (re-search-backward insert-docstring--python-function-indentation-regex)
+    (re-search-forward regex)
     (match-string 1)))
 
 
@@ -225,6 +226,8 @@ If a string is empty, PREFIX doesn't get prepended."
 (defun insert-docstring--insert-python-docstring-with-indentation (docstring-lines)
   "Insert the DOCSTRING-LINES in the buffer."
   (save-excursion
+    (end-of-line)
+    (re-search-backward insert-docstring--python-function-indentation-regex)
     (re-search-forward insert-docstring--python-function-end-regex)
     (insert "\n")
     (insert (mapconcat #'identity docstring-lines "\n"))
