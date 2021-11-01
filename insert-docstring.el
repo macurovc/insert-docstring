@@ -49,51 +49,51 @@
 (defgroup insert-docstring nil "Insert Docstring custom variables"
   :group 'convenience)
 
-(defcustom insert-docstring--python-tab-width (if (boundp 'python-tab-width)
-                                                  python-tab-width
-                                                4)
+(defcustom insert-docstring-python-tab-width (if (boundp 'python-tab-width)
+                                                 python-tab-width
+                                               4)
   "Tabulation width in Python files."
   :group 'insert-docstring
   :type 'integer)
 
-(defcustom insert-docstring--default-python-indentation (make-string insert-docstring--python-tab-width
-                                                                     ?\s)
+(defcustom insert-docstring-default-python-indentation (make-string insert-docstring-python-tab-width
+                                                                    ?\s)
   "Python indentation string."
   :group 'insert-docstring
   :type 'string)
 
-(defcustom insert-docstring--python-function-indentation-regex (rx line-start
-                                                                   (group (* blank))
-                                                                   "def"
-                                                                   (or blank "\n"))
+(defcustom insert-docstring-python-function-indentation-regex (rx line-start
+                                                                  (group (* blank))
+                                                                  "def"
+                                                                  (or blank "\n"))
   "Regex to find the indentation of a function."
   :group 'insert-docstring
   :type 'string)
 
-(defcustom insert-docstring--python-function-name-regex (rx "def"
-                                                            (+ (or blank "\n"))
-                                                            (group (+ (not whitespace)))
-                                                            (* (or blank "\n"))
-                                                            "(")
+(defcustom insert-docstring-python-function-name-regex (rx "def"
+                                                           (+ (or blank "\n"))
+                                                           (group (+ (not whitespace)))
+                                                           (* (or blank "\n"))
+                                                           "(")
   "Regex to find the name of a function."
   :group 'insert-docstring
   :type 'string)
 
-(defcustom insert-docstring--python-function-arguments-regex (rx "("
-                                                                 (group (* (not (any "(" ")"))))
-                                                                 ")")
+(defcustom insert-docstring-python-function-arguments-regex (rx "("
+                                                                (group (* (not (any "(" ")"))))
+                                                                ")")
   "Regex to find the string of arguments of a function."
   :group 'insert-docstring
   :type 'string)
 
-(defcustom insert-docstring--python-function-end-regex (rx ")"
-                                                           (* (not (any ":")))
-                                                           ":")
+(defcustom insert-docstring-python-function-end-regex (rx ")"
+                                                          (* (not (any ":")))
+                                                          ":")
   "Regex to find the end of a function."
   :group 'insert-docstring
   :type 'string)
 
-(defcustom insert-docstring--blank-or-newline-regex (rx (+ (or blank "\n")))
+(defcustom insert-docstring-blank-or-newline-regex (rx (+ (or blank "\n")))
   "Regex to find blanks and newlines (used for trimming)."
   :group 'insert-docstring
   :type 'string)
@@ -123,11 +123,11 @@
 (defun insert-docstring--function-data-at-point ()
   "Return a function-data struct with the data of the function at point."
   (let ((indentation-string (insert-docstring--match-string-for-python-function-at-point
-                             insert-docstring--python-function-indentation-regex))
+                             insert-docstring-python-function-indentation-regex))
         (function-name (insert-docstring--match-string-for-python-function-at-point
-                        insert-docstring--python-function-name-regex))
+                        insert-docstring-python-function-name-regex))
         (arguments-string (insert-docstring--match-string-for-python-function-at-point
-                           insert-docstring--python-function-arguments-regex)))
+                           insert-docstring-python-function-arguments-regex)))
     (insert-docstring--make-function-data indentation-string
                                           function-name
                                           (insert-docstring--get-python-arguments-names-from-string
@@ -138,7 +138,7 @@
   "Match REGEX for the python function at point and return its first group."
   (save-excursion
     (end-of-line)
-    (re-search-backward insert-docstring--python-function-indentation-regex)
+    (re-search-backward insert-docstring-python-function-indentation-regex)
     (re-search-forward regex)
     (match-string 1)))
 
@@ -149,7 +149,7 @@
       nil
     (mapcar (lambda (string)
               "Remove default value if any and trim"
-              (car (split-string string "=" t insert-docstring--blank-or-newline-regex)))
+              (car (split-string string "=" t insert-docstring-blank-or-newline-regex)))
             (cl-remove-if (lambda (string)
                             "Match type data leftovers"
                             (string-match-p (rx (or "[" "]"))
@@ -227,8 +227,8 @@ If a string is empty, PREFIX doesn't get prepended."
   "Insert the DOCSTRING-LINES in the buffer."
   (save-excursion
     (end-of-line)
-    (re-search-backward insert-docstring--python-function-indentation-regex)
-    (re-search-forward insert-docstring--python-function-end-regex)
+    (re-search-backward insert-docstring-python-function-indentation-regex)
+    (re-search-forward insert-docstring-python-function-end-regex)
     (insert "\n")
     (insert (mapconcat #'identity docstring-lines "\n"))))
 
@@ -237,7 +237,7 @@ If a string is empty, PREFIX doesn't get prepended."
   "Return the Google docstring lines corresponding to FUNCTION-DATA."
   (let ((docstring-indentation (concat (insert-docstring--function-data-indentation-string
                                         function-data)
-                                       insert-docstring--default-python-indentation))
+                                       insert-docstring-default-python-indentation))
         (short-description (insert-docstring--function-data-short-description
                             function-data))
         (long-description (insert-docstring--function-data-long-description
@@ -267,7 +267,7 @@ If a string is empty, PREFIX doesn't get prepended."
 
 (defun insert-docstring--python-google-docstring-arguments (arguments docstring-indentation)
   "Return the docstring lines about the ARGUMENTS with the given DOCSTRING-INDENTATION."
-  (let ((argument-indentation (concat docstring-indentation insert-docstring--default-python-indentation)))
+  (let ((argument-indentation (concat docstring-indentation insert-docstring-default-python-indentation)))
     (nconc (if arguments
                (nconc (list "")
                       (insert-docstring--prefix-lines '("Args:")
@@ -285,7 +285,7 @@ Argument ARGUMENTS-DOCSTRING-INDENTATION intentation of the argument paragraph."
                       argument-data)))
     (insert-docstring--line-to-indented-paragraph (format "%s: %s" name description)
                                                   arguments-docstring-indentation
-                                                  insert-docstring--default-python-indentation)))
+                                                  insert-docstring-default-python-indentation)))
 
 
 (defun insert-docstring--python-google-docstring-arguments-list (arguments arguments-docstring-indentation)
@@ -304,7 +304,7 @@ Argument ARGUMENTS-DOCSTRING-INDENTATION intentation of the argument paragraph."
              (insert-docstring--prefix-lines '("Returns:")
                                              docstring-indentation)
              (insert-docstring--line-to-indented-paragraph return-description
-                                                           (concat insert-docstring--default-python-indentation
+                                                           (concat insert-docstring-default-python-indentation
                                                                    docstring-indentation)))))
 
 

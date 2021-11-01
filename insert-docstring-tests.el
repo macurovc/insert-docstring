@@ -34,64 +34,64 @@
 (ert-deftest python-python-function-name-test ()
   "Match the name of a simple function."
   (let ((string "def something()"))
-    (should (equal (string-match insert-docstring--python-function-name-regex string) 0))
+    (should (equal (string-match insert-docstring-python-function-name-regex string) 0))
     (should (equal (match-string 1 string) "something"))))
 
 (ert-deftest python-function-name-with-indent-test ()
   "Match the name of a function with some indentation."
   (let ((string "\n \t   def    something  ("))
-    (should (equal (string-match insert-docstring--python-function-name-regex string) 6))
+    (should (equal (string-match insert-docstring-python-function-name-regex string) 6))
     (should (equal (match-string 1 string) "something"))))
 
 (ert-deftest python-function-name-with-underscores-test ()
   "Match the name of a function with underscores."
   (let ((string "\n \t   def    _something_else  ("))
-    (should (equal (string-match insert-docstring--python-function-name-regex string) 6))
+    (should (equal (string-match insert-docstring-python-function-name-regex string) 6))
     (should (equal (match-string 1 string) "_something_else"))))
 
 (ert-deftest python-end-of-function-test ()
   "Match the end of a function definition."
-  (should (equal (string-match insert-docstring--python-function-end-regex "):") 0))
-  (should (equal (string-match insert-docstring--python-function-end-regex ")  ->  None : ") 0)))
+  (should (equal (string-match insert-docstring-python-function-end-regex "):") 0))
+  (should (equal (string-match insert-docstring-python-function-end-regex ")  ->  None : ") 0)))
 
 (ert-deftest python-end-of-function-with-newline-test ()
   "Match the end of a function definition with a None return type and newlines."
   (let ((string ") \n ->\n \n\nNone:\n"))
-    (should (equal (string-match insert-docstring--python-function-end-regex string) 0))))
+    (should (equal (string-match insert-docstring-python-function-end-regex string) 0))))
 
 (ert-deftest python-end-of-function-with-type-test ()
   "Match the end of a function definition with an elaborate return type."
   (let ((string "  ) \n ->\n \n\nMap[int, int]:\n"))
-    (should (equal (string-match insert-docstring--python-function-end-regex string) 2))))
+    (should (equal (string-match insert-docstring-python-function-end-regex string) 2))))
 
 (ert-deftest python-argument-string-regex-test ()
   "Match the arguments string."
   (let ((string "def toto_blabla(hey1):"))
-    (should (equal (string-match insert-docstring--python-function-arguments-regex string) 15))
+    (should (equal (string-match insert-docstring-python-function-arguments-regex string) 15))
     (should (equal (match-string 1 string) "hey1"))))
 
 (ert-deftest python-argument-string-regex-test ()
   "Match the arguments string."
   (let ((string "\ndef\n\ntoto(  bubu : List[str] ,   lala   )  -> \n\nNone : "))
-    (should (equal (string-match insert-docstring--python-function-arguments-regex string) 10))
+    (should (equal (string-match insert-docstring-python-function-arguments-regex string) 10))
     (should (equal (match-string 1 string) "  bubu : List[str] ,   lala   "))))
 
 (ert-deftest python-argument-string-regex-with-newlines-test ()
   "Match the arguments string."
   (let ((string "\ndef\n\ntoto(  bubu : List[str] ,\n   lala   )  -> \n\nNone : "))
-    (should (equal (string-match insert-docstring--python-function-arguments-regex string) 10))
+    (should (equal (string-match insert-docstring-python-function-arguments-regex string) 10))
     (should (equal (match-string 1 string) "  bubu : List[str] ,\n   lala   "))))
 
 (ert-deftest python-function-indentation-test ()
   "Match the arguments string."
   (let ((string "\ndef\n\ntoto()  -> \n\nNone : "))
-    (should (equal (string-match insert-docstring--python-function-indentation-regex string) 1))
+    (should (equal (string-match insert-docstring-python-function-indentation-regex string) 1))
     (should (equal (match-string 1 string) ""))))
 
 (ert-deftest python-function-indentation-with-tabs-and-spaces-test ()
   "Match the arguments string."
   (let ((string "\n  \t def\n\ntoto()  -> \n\nNone : "))
-    (should (equal (string-match insert-docstring--python-function-indentation-regex string) 1))
+    (should (equal (string-match insert-docstring-python-function-indentation-regex string) 1))
     (should (equal (match-string 1 string) "  \t "))))
 
 (ert-deftest python-parse-argument-list-test ()
