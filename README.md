@@ -30,20 +30,20 @@ The text gets automatically *indented* and *split* on multiple lines.
 ### With [use-package](https://github.com/jwiegley/use-package) and [quelpa](https://github.com/quelpa/quelpa)
 
 ```elisp
-(use-package insert-docstring
+(use-package python-insert-docstring
   :ensure nil
-  :quelpa (insert-docstring
+  :quelpa (python-insert-docstring
            :fetcher github
            :repo "macurovc/insert-docstring"))
 ```
 
 ### Manually
 
-Place [insert-docstring.el](insert-docstring.el) in your Emacs `load-path`. E.g.:
+Place [python-insert-docstring.el](python-insert-docstring.el) in your Emacs `load-path`. E.g.:
 
 ```elisp
 (add-to-list 'load-path (expand-file-name "~/{path/to}/insert-docstring"))
-(require 'insert-docstring)
+(require 'python-insert-docstring)
 ```
 
 ## Usage
@@ -52,7 +52,7 @@ Set in the `~/.emacs` file a keybinding such as:
 
 ```elisp
 (defun set-python-keybindings ()
-  (local-set-key (kbd "C-c i") 'insert-docstring-at-point-with-google-style)
+  (local-set-key (kbd "C-c i") 'python-insert-docstring-with-google-style-at-point)
   )
 (add-hook 'python-mode-hook 'set-python-keybindings)
 ```
@@ -63,12 +63,12 @@ the instructions.
 ## Contributing
 
 Any contribution is welcome. The file
-[insert-docstring-tests.el](insert-docstring-tests.el) contains tests for the
+[python-insert-docstring-tests.el](python-insert-docstring-tests.el) contains tests for the
 functions that don't require user inputs and don't modify a buffer. The tests
 can be run with the following command:
 
 ```bash
-emacs -batch -l insert-docstring.el -l insert-docstring-tests.el -f ert-run-tests-batch-and-exit
+emacs -batch -l python-insert-docstring.el -l python-insert-docstring-tests.el -f ert-run-tests-batch-and-exit
 ```
 
 Each contribution must respect the following requirements:
