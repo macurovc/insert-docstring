@@ -27,6 +27,13 @@ The text gets automatically *indented* and *split* on multiple lines.
 
 ## Install
 
+### With MELPA
+
+This package is [available on
+MELPA](https://melpa.org/#/python-insert-docstring). You can refer to [this
+page](https://melpa.org/#/getting-started) to learn how to use the MELPA
+repository.
+
 ### With [use-package](https://github.com/jwiegley/use-package) and [quelpa](https://github.com/quelpa/quelpa)
 
 ```elisp
