@@ -110,7 +110,9 @@
     (should (equal (python-insert-docstring--get-arguments-names-from-string
                     "  first: Type = 1,\n  second: Map[some, other] = 2") '("first" "second")))
     (should (equal (python-insert-docstring--get-arguments-names-from-string
-                    "  first = 1,\n  second = 2") '("first" "second")))))
+                    "  first = 1,\n  second = 2") '("first" "second")))
+    (should (equal (python-insert-docstring--get-arguments-names-from-string
+                    "  self ,\n  second = 2") '("second")))))
 
 (ert-deftest prefix-lines-test ()
   "Test the function to prefix lines with blanks."

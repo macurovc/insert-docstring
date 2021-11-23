@@ -147,17 +147,21 @@
   "Parse the argument names contained in ARGUMENTS-STRING and return them in a list."
   (if (string-equal "" arguments-string)
       nil
-    (mapcar (lambda (string)
-              "Remove default value if any and trim"
-              (car (split-string string "=" t python-insert-docstring-blank-or-newline-regex)))
-            (cl-remove-if (lambda (string)
-                            "Match type data leftovers"
-                            (string-match-p (rx (or "[" "]"))
-                                            string))
-                          (mapcar (lambda (single-argument-string)
-                                    "Drop type data"
-                                    (car (split-string single-argument-string ":")))
-                                  (split-string arguments-string ","))))))
+    (let ((arguments (mapcar (lambda (string)
+                               "Remove default value if any and trim"
+                               (car (split-string string "=" t python-insert-docstring-blank-or-newline-regex)))
+                             (cl-remove-if (lambda (string)
+                                             "Match type data leftovers"
+                                             (string-match-p (rx (or "[" "]"))
+                                                             string))
+                                           (mapcar (lambda (single-argument-string)
+                                                     "Drop type data"
+                                                     (car (split-string single-argument-string ":")))
+                                                   (split-string arguments-string ","))))))
+      (if (string-equal (car arguments)
+                        "self")
+          (cdr arguments)
+        arguments))))
 
 
 (defun python-insert-docstring--make-function-data (indentation-string function-name argument-names)
