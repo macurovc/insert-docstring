@@ -112,6 +112,8 @@
     (should (equal (python-insert-docstring--get-arguments-names-from-string
                     "  first = 1,\n  second = 2") '("first" "second")))
     (should (equal (python-insert-docstring--get-arguments-names-from-string
+                    "  cls ,\n  second = 2") '("second")))
+    (should (equal (python-insert-docstring--get-arguments-names-from-string
                     "  self ,\n  second = 2") '("second")))))
 
 (ert-deftest prefix-lines-test ()

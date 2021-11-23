@@ -158,8 +158,7 @@
                                                      "Drop type data"
                                                      (car (split-string single-argument-string ":")))
                                                    (split-string arguments-string ","))))))
-      (if (string-equal (car arguments)
-                        "self")
+      (if (member (car arguments) '("self" "cls"))
           (cdr arguments)
         arguments))))
 
