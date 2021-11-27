@@ -144,7 +144,8 @@
 
 
 (defun python-insert-docstring--get-arguments-names-from-string (arguments-string)
-  "Parse the argument names contained in ARGUMENTS-STRING and return them in a list."
+  "Parse the argument names and return them in a list.
+Argument ARGUMENTS-STRING string containing the arguments."
   (if (string-equal "" arguments-string)
       nil
     (let ((arguments (mapcar (lambda (string)
@@ -194,13 +195,15 @@ The user is asked for the description of each argument."
 
 
 (defun python-insert-docstring--get-short-description-from-user (function-name)
-  "Ask the user for the short description of the function with name FUNCTION-NAME."
+  "Ask the user for the short description of the function.
+Argument FUNCTION-NAME name of the function."
   (read-string (format "Enter the short description for the function '%s': "
                        function-name)))
 
 
 (defun python-insert-docstring--get-long-description-from-user (function-name)
-  "Ask the user for the long description of the function with name FUNCTION-NAME."
+  "Ask the user for the long description of the function.
+Argument FUNCTION-NAME name of the function."
   (let ((description (read-string (format "Enter the long description for the function '%s' (leave empty to omit it): "
                                           function-name))))
     (if (string-equal description "")
@@ -271,7 +274,9 @@ If a string is empty, PREFIX doesn't get prepended."
 
 
 (defun python-insert-docstring--google-docstring-arguments (arguments docstring-indentation)
-  "Return the docstring lines about the ARGUMENTS with the given DOCSTRING-INDENTATION."
+  "Return the Args docstring lines.
+Argument ARGUMENTS list of arguments.
+Argument DOCSTRING-INDENTATION indentation string."
   (let ((argument-indentation (concat docstring-indentation python-insert-docstring-default-indentation)))
     (nconc (if arguments
                (nconc (list "")
@@ -295,7 +300,9 @@ Argument ARGUMENTS-DOCSTRING-INDENTATION intentation of the argument paragraph."
 
 
 (defun python-insert-docstring--google-docstring-arguments-list (arguments arguments-docstring-indentation)
-  "Return the docstring lines about the ARGUMENTS list with the given ARGUMENTS-DOCSTRING-INDENTATION."
+  "Return the lines where every argument is described.
+Argument ARGUMENTS list of arguments.
+Argument ARGUMENTS-DOCSTRING-INDENTATION indentation for the arguments lines."
   (cl-reduce #'nconc
              (mapcar (lambda (argument)
                        (python-insert-docstring--google-docstring-argument-description
@@ -343,7 +350,7 @@ Optional argument COLUMN-WIDTH maximum lenght of a line."
 (defun python-insert-docstring--indentation-length (indentation-string &optional num-tab-chars)
   "Compute the number of character in INDENTATION-STRING.
 Tabs count according to their width.
-Optional argument NUM-TAB-CHARS number of spaces in a tabulation (default: `tab-width')."
+Optional argument NUM-TAB-CHARS spaces in a tabulation (default: `tab-width')."
   (cl-reduce #'+
              (mapcar (lambda (char)
                        (if (char-equal char ?\t)
