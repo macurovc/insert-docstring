@@ -148,7 +148,6 @@
              :arguments nil
              :return nil))
            '("    \"\"\"title"
-             ""
              "    \"\"\""))))
 
 (ert-deftest python-google-docstring-title-and-return ()
@@ -165,7 +164,6 @@
              ""
              "    Returns:"
              "        something"
-             ""
              "    \"\"\""))))
 
 (ert-deftest python-google-docstring-title-args-and-return ()
@@ -187,7 +185,6 @@
              ""
              "    Returns:"
              "        something"
-             ""
              "    \"\"\""))))
 
 (ert-deftest python-google-docstring-title-and-args ()
@@ -206,7 +203,6 @@
              "    Args:"
              "        one: this one"
              "        two: this two"
-             ""
              "    \"\"\""))))
 
 (ert-deftest python-google-docstring-all-fields ()
@@ -236,7 +232,6 @@
              "        Returns:"
              "            what a very very very very very very very very very very very very"
              "            long return"
-             ""
              "        \"\"\""))))
 
 

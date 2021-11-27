@@ -258,7 +258,7 @@ If a string is empty, PREFIX doesn't get prepended."
             arguments docstring-indentation)
            (python-insert-docstring--google-docstring-returns
             return docstring-indentation)
-           (python-insert-docstring--prefix-lines '("" "\"\"\"")
+           (python-insert-docstring--prefix-lines '("\"\"\"")
                                                   docstring-indentation))))
 
 
